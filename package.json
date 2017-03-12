@@ -32,8 +32,12 @@
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
+    "express-graphql": "^0.6.3",
+    "graphql": "^0.9.1",
     "morgan": "^1.8.0",
-    "resource-router-middleware": "^0.6.0"
+    "resource-router-middleware": "^0.6.0",
+    "superagent": "^3.5.0",
+    "superagent-es6-promise": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",

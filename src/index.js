@@ -3,10 +3,9 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import initializeDb from './db';
-import middleware from './middleware';
-import api from './api';
 import config from './config.json';
+const graphqlHTTP = require('express-graphql');
+import { schema, rootResolver } from './schema';
 
 let app = express();
 app.server = http.createServer(app);
@@ -23,18 +22,14 @@ app.use(bodyParser.json({
 	limit : config.bodyLimit
 }));
 
-// connect to db
-initializeDb( db => {
+app.use('/api', graphqlHTTP({
+    schema: schema,
+    rootValue: rootResolver,
+    graphiql: true
+}));
 
-	// internal middleware
-	app.use(middleware({ config, db }));
+app.server.listen(process.env.PORT || config.port);
 
-	// api router
-	app.use('/api', api({ config, db }));
-
-	app.server.listen(process.env.PORT || config.port);
-
-	console.log(`Started on port ${app.server.address().port}`);
-});
+console.log(`Started on port ${app.server.address().port}`);
 
 export default app;
